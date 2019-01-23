@@ -9,7 +9,7 @@ SAMPLING_FREQ= 240; // Hz
 x_orig=csvRead("cn2l.txt", ascii(9), 'double');
 y_orig=csvRead("cn2v.txt", ascii(9), 'double');
 size_m = size(x_orig);
-freq=0:SAMPLING_FREQ/(size_m(1)-1):SAMPLING_FREQ;
+freq=0:SAMPLING_FREQ/(size_m(1)/2-1):SAMPLING_FREQ;
 
 teta=0;
 for step= 0:ANGLES do
@@ -22,10 +22,11 @@ for step= 0:ANGLES do
         temp= x_orig(:,point)*cos(teta) + y_orig(:,point)*sin(teta);
         temp_f= abs(fft(temp))';
         temp_f(1)= 0;
+        temp_f= temp_f(1:size_m(1)/2);
         ts= max(temp_f)/20;
         temp_peaks= peak_detect(temp_f,ts);
-        // plot2d(freq,temp_f,2);
-        // plot2d(freq(peaks),temp_f(peaks),-3);
+        plot2d(freq,temp_f,2);
+        plot2d(freq(peaks),temp_f(peaks),-3);
         
         x_freq((step+1),point,:) = temp_f;
         //peak_freq((step+1),point,:) = temp_peaks;
