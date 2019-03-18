@@ -8,9 +8,13 @@ SAMPLING_FREQ= 240; // Hz
 PEAK_THRESHOLD= 50;
 SAMPLING_LENGTH= 600; // samples
 //ORDER= 3;
+START=400
 
-x_orig=csvRead("lat.txt", ascii(9), 'double');
-y_orig=csvRead("ver.txt", ascii(9), 'double');
+x_file=csvRead("lat.txt", ascii(9), 'double');
+y_file=csvRead("ver.txt", ascii(9), 'double');
+x_orig=x_file(START:START+SAMPLING_LENGTH,:);
+y_orig=y_file(START:START+SAMPLING_LENGTH,:);
+
 size_m = size(x_orig);
 freq=0:SAMPLING_FREQ/(SAMPLING_LENGTH/2-1):SAMPLING_FREQ;
 
