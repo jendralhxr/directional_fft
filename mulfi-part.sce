@@ -36,7 +36,7 @@ for step= 0:ANGLES do
 		mul_peak2((step+1),point) = freq(temp_peaks(2));
 		mul_peak3((step+1),point) = freq(temp_peaks(3));
 		
-		//polar plot routine here
+		//cylindrical plot routine here
 		
 		// may not need the y axis
         //y_shifted(:,point)= y_orig(:,point)*cos(teta) - x_orig(:,point)*sin(teta);			
