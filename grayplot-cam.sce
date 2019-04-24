@@ -34,7 +34,7 @@ for marker= 1:9 do
   ylabel("freq (Hz)");
   label=sprintf("marker%d lateral",marker-1);
   title(label);
-  filename=sprintf("x%d.png",marker-1);
+  filename=sprintf("cam-x%d.png",marker-1);
   xs2png(0,filename);
 
 // vertical axis
@@ -44,7 +44,7 @@ for marker= 1:9 do
   ylabel("freq (Hz)");
   label=sprintf("marker%d vertical",marker-1);
   title(label);
-  filename=sprintf("y%d.png",marker-1);
+  filename=sprintf("cam-y%d.png",marker-1);
   xs2png(0,filename);
 
 end
