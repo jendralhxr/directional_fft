@@ -5,7 +5,7 @@ sample_time= 10; // s
 freq_sampling= 240; // Hz
 freq_max=30; // Hz
 freq_elem= freq_max / freq_sampling * sample; 
-freq=0:freq_max/freq_elem:freq_max-0.0001;
+freqS=0:freq_max/freq_elem:freq_max-0.0001;
 step_max= 15; 
 time=0:sample_time/step_max:sample_time;
 
@@ -29,7 +29,7 @@ for marker= 1:9 do
   
 // lateral axis
   xset("colormap",jetcolormap(64));
-  Sgrayplot(time,freq,grayft_x);
+  Sgrayplot(time,freqS,grayft_x);
   xlabel("time (s)");
   ylabel("freq (Hz)");
   label=sprintf("marker%d lateral",marker-1);
@@ -39,7 +39,7 @@ for marker= 1:9 do
 
 // vertical axis
   xset("colormap",jetcolormap(64));
-  Sgrayplot(time,freq,grayft_y);
+  Sgrayplot(time,freqS,grayft_y);
   xlabel("time (s)");
   ylabel("freq (Hz)");
   label=sprintf("marker%d vertical",marker-1);
