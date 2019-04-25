@@ -1,9 +1,14 @@
-displacement=csvRead('tapa', ascii(9), 'double');
+// run it this way:
+// $ scilab-cli -f grayplot-cam.sce -args accelerometerdisplacementfile
+
+clear;
+args= sciargs();
+displacement=csvRead(args(5), ascii(9), 'double');
 
 sample= 1200; // FFT sample window
 sample_time= 20; // s
 freq_sampling= 480; // Hz
-step_size=300;
+step_size=60;
 step_max= (size(displacement,1)-sample)/step_size; 
 
 freq_max=30; // Hz
@@ -33,5 +38,4 @@ for marker= 1:9 do
  
 end
 
-
-
+exit

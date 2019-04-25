@@ -1,6 +1,9 @@
-clear;
+// run it this way:
+// $ scilab-cli -f grayplot-cam.sce -args cameradisplacementfile
 
-temp=csvRead('cam-tap', ascii(9), 'double');
+clear;
+args= sciargs();
+temp=csvRead(args(5), ascii(9), 'double');
 
 sample= 600; // FFT sample window
 sample_time= 10; // s
@@ -15,7 +18,7 @@ for marker= 1:9 do
   displacement_y(:,marker)=temp(:,2*marker);
 end
 
-step_size=60;
+step_size=30;
 step_max=(size(displacement_y,1)-sample)/step_size; 
 time=0:sample_time/step_max:sample_time;
 
@@ -53,5 +56,4 @@ for marker= 1:9 do
 
 end
 
-
-
+exit
