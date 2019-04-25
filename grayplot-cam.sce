@@ -1,13 +1,13 @@
+clear;
+
 temp=csvRead('cam-tap', ascii(9), 'double');
 
 sample= 600; // FFT sample window
 sample_time= 10; // s
 freq_sampling= 240; // Hz
-freq_max=30; // Hz
+freq_max=40; // Hz
 freq_elem= freq_max / freq_sampling * sample; 
 freqS=0:freq_max/freq_elem:freq_max-0.0001;
-step_max= 15; 
-time=0:sample_time/step_max:sample_time;
 
 // parsing lateral and vertical displacement
 for marker= 1:9 do
@@ -15,12 +15,16 @@ for marker= 1:9 do
   displacement_y(:,marker)=temp(:,2*marker);
 end
 
+step_size=60;
+step_max=(size(displacement_y,1)-sample)/step_size; 
+time=0:sample_time/step_max:sample_time;
+
 
 // plot frequency responses
 for marker= 1:9 do
   for step=0:step_max do
-    dfft_x=abs(fft(displacement_x(step*120+1:step*120+sample,marker)));
-    dfft_y=abs(fft(displacement_y(step*120+1:step*120+sample,marker)));
+    dfft_x=abs(fft(displacement_x(step*step_size+1:step*step_size+sample,marker)));
+    dfft_y=abs(fft(displacement_y(step*step_size+1:step*step_size+sample,marker)));
     dfft_x(1)=0;
     dfft_y(1)=0;
     grayft_x(step+1,1:freq_elem)=dfft_x(1:freq_elem)';

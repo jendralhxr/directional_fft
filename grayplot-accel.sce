@@ -16,7 +16,7 @@ time=0:sample_time/step_max:sample_time;
 for marker= 1:9 do
 
   for step=0:step_max do
-    dfft=abs(fft(displacement(300*step+1:300*step+sample,marker)));
+    dfft=abs(fft(displacement(step_size*step+1:step_size*step+sample,marker)));
     dfft(1)=0;
     grayft(step+1,1:freq_elem)=dfft(1:freq_elem)';
   end
