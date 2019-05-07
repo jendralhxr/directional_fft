@@ -37,13 +37,15 @@ for marker= 1:9 do
 
 // vertical axis
   xset("colormap",jetcolormap(64));
-//  Sgrayplot(time,freqS,grayft);
+  Sgrayplot(time,freqS,grayft);
   xlabel("time (s)");
   ylabel("freq (Hz)");
   label=sprintf("marker%d vertical",marker-1);
   title(label);
   filename=sprintf("accel-y%d.png",marker-1);
-//  xs2png(0,filename);
+  filename2=sprintf("peakfreq%d.png",marker-1);
+  xs2png(0,filename);
+  csvWrite(fft_max_freq, filename2, ascii(9))
  
 end
 
