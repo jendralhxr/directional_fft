@@ -11,10 +11,9 @@ sample_time= 20; // s
 freq_sampling= 480; // Hz
 step_size=60;
 step_max= (size(displacement,1)-sample_window)/step_size; 
-
 freq_max=30; // Hz
-freq_elem= freq_max / freq_sampling * sample_window; 
 
+freq_elem= freq_max / freq_sampling * sample_window; 
 freqF=0:freq_sampling/sample_window:freq_sampling-0.0001;
 freqS=0:freq_max/freq_elem:freq_max-0.0001;
 time=0:sample_time/step_max:sample_time;
@@ -26,7 +25,6 @@ for marker= 1:9 do
     dfft=abs(fft(displacement(step_size*step+1:step_size*step+sample_window,marker)));
     dfft(1)=0;
     [ fft_max_value(step+1) fft_max_index(step+1) ] = max(dfft);    
-	
 	fft_max_freq(step+1)= freqF(fft_max_index(step+1));
     if freqF(fft_max_index(step+1)) < freq_max then
 		fft_max_freq(step+1)= freqF(fft_max_index(step+1));
