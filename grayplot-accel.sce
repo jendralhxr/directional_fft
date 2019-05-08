@@ -3,6 +3,7 @@
 
 clear;
 exec('peak_detect.sci');
+funcprot(0); // peaks() is redifined
 args= sciargs();
 displacement=csvRead("tapa", ascii(9), 'double');
 
@@ -12,6 +13,7 @@ freq_sampling= 480; // Hz
 step_size=60;
 step_max= (size(displacement,1)-sample_window)/step_size; 
 freq_max=30; // Hz
+peaks_order= 10; // number of frequency peaks to extract
 
 freq_elem= freq_max / freq_sampling * sample_window; 
 freqF=0:freq_sampling/sample_window:freq_sampling-0.0001;
@@ -24,11 +26,19 @@ for marker= 1:9 do
   for step=0:step_max do
     dfft=abs(fft(displacement(step_size*step+1:step_size*step+sample_window,marker)));
     dfft(1)=0;
+    
+    // extract largest peak
     [ fft_max_value(step+1) fft_max_index(step+1) ] = max(dfft);    
 	fft_max_freq(step+1)= freqF(fft_max_index(step+1));
     if freqF(fft_max_index(step+1)) < freq_max then
 		fft_max_freq(step+1)= freqF(fft_max_index(step+1));
         else fft_max_freq(step+1)= 0;
+	end
+	
+	// extract peaks
+	temp_peaks= peak_detect(dfft');
+	for order=1:peaks_order do
+        fft_peaks_freq(step+1,order)= freqF(temp_peaks(order));
 	end		
     grayft(step+1,1:freq_elem)=dfft(1:freq_elem)';
   end
@@ -41,9 +51,11 @@ for marker= 1:9 do
   label=sprintf("marker%d vertical",marker-1);
   title(label);
   filename=sprintf("accel-y%d.png",marker-1);
-  filename2=sprintf("peakfreq%d.png",marker-1);
+  filename2=sprintf("peak%d.png",marker-1);
+  filename3=sprintf("freq%d.png",marker-1);
   xs2png(0,filename);
-  csvWrite(fft_max_freq, filename2, ascii(9))
+  csvWrite(fft_max_freq, filename2, ascii(9));
+  csvWrite(fft_peaks_freq, filename3, ascii(9));
  
 end
 
