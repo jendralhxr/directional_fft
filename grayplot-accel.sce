@@ -29,8 +29,7 @@ for marker= 1:9 do
     
     // extract largest peak
     [ fft_max_value(step+1) fft_max_index(step+1) ] = max(dfft);    
-	fft_max_freq(step+1)= freqF(fft_max_index(step+1));
-    if freqF(fft_max_index(step+1)) < freq_max then
+	if freqF(fft_max_index(step+1)) < freq_max then
 		fft_max_freq(marker,step+1)= freqF(fft_max_index(step+1));
         else fft_max_freq(step+1)= 0;
 	end
