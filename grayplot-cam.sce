@@ -1,15 +1,20 @@
 // run it this way:
-// $ scilab-cli -f grayplot-cam.sce -args cameradisplacementfile
+// $ scilab-adv-cli -f grayplot-cam.sce -args cameradisplacementfile
 
 clear;
+exec('peak_detect.sci');
+funcprot(0); // peaks() is redifined
 args= sciargs();
 temp=csvRead(args(5), ascii(9), 'double');
 
 sample_window= 600; // FFT sample_window window
 sample_time= 10; // s
 freq_sampling= 240; // Hz
-freq_max=40; // Hz
+freq_max=30; // Hz
+peaks_order= 10; // number of frequency peaks to extract
+
 freq_elem= freq_max / freq_sampling * sample_window; 
+freqF=0:freq_sampling/sample_window:freq_sampling-0.0001;
 freqS=0:freq_max/freq_elem:freq_max-0.0001;
 
 // parsing lateral and vertical displacement
@@ -22,7 +27,6 @@ step_size=30;
 step_max=(size(displacement_y,1)-sample_window)/step_size; 
 time=0:sample_time/step_max:sample_time;
 
-
 // plot frequency responses
 for marker= 1:9 do
   for step=0:step_max do
@@ -30,9 +34,32 @@ for marker= 1:9 do
     dfft_y=abs(fft(displacement_y(step*step_size+1:step*step_size+sample_window,marker)));
     dfft_x(1)=0;
     dfft_y(1)=0;
+
+    // extract largest lateral peak
+    [ fft_max_value_x(step+1) fft_max_index_x(step+1) ] = max(dfft_x);    
+	if freqF(fft_max_index_x(step+1)) < freq_max then
+		fft_max_freq_x(marker,step+1)= freqF(fft_max_index_x(step+1));
+        else fft_max_freq_x(marker,step+1)= 0;
+        end
+    // extract largest vertical peak
+    [ fft_max_value_x(step+1) fft_max_index_y(step+1) ] = max(dfft_x);    
+    if freqF(fft_max_index_y(step+1)) < freq_max then
+		fft_max_freq_y(marker,step+1)= freqF(fft_max_index_y(step+1));
+        else fft_max_freq_y(marker,step+1)= 0;
+        end
+	// extract frequency peaks
+	temp_peaks_x= peak_detect(dfft_x');
+	temp_peaks_y= peak_detect(dfft_y');
+	for order=1:peaks_order do
+        fft_peaks_freq_x(step+1,order)= freqF(temp_peaks_x(order));
+	    fft_peaks_freq_y(step+1,order)= freqF(temp_peaks_y(order));
+	end		// order
+	
     grayft_x(step+1,1:freq_elem)=dfft_x(1:freq_elem)';
     grayft_y(step+1,1:freq_elem)=dfft_y(1:freq_elem)';
-  end
+
+
+  end // step
   
 // lateral axis
   xset("colormap",jetcolormap(64));
@@ -54,6 +81,16 @@ for marker= 1:9 do
   filename=sprintf("cam-y%d.png",marker-1);
   xs2png(0,filename);
 
-end
+  filename=sprintf("cam-freqx%d.csv",marker-1);
+  csvWrite(fft_peaks_freq_x, filename, ascii(9));
+  filename=sprintf("cam-freqy%d.csv",marker-1);
+  csvWrite(fft_peaks_freq_y, filename, ascii(9));
+  
+end // marker
+
+filename=sprintf("cam-peakx.csv");
+csvWrite(fft_max_freq_x', filename, ascii(9));
+filename=sprintf("cam-peaky.csv");
+csvWrite(fft_max_freq_y', filename, ascii(9));
 
 exit
