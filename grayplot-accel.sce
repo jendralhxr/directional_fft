@@ -1,5 +1,5 @@
 // run it this way:
-// $ scilab-cli -f grayplot-cam.sce -args accelerometerdisplacementfile
+// $ scilab-adv-cli -f grayplot-cam.sce -args accelerometerdisplacementfile
 
 clear;
 exec('peak_detect.sci');
@@ -31,7 +31,7 @@ for marker= 1:9 do
     [ fft_max_value(step+1) fft_max_index(step+1) ] = max(dfft);    
 	fft_max_freq(step+1)= freqF(fft_max_index(step+1));
     if freqF(fft_max_index(step+1)) < freq_max then
-		fft_max_freq(step+1)= freqF(fft_max_index(step+1));
+		fft_max_freq(marker,step+1)= freqF(fft_max_index(step+1));
         else fft_max_freq(step+1)= 0;
 	end
 	
@@ -51,12 +51,14 @@ for marker= 1:9 do
   label=sprintf("marker%d vertical",marker-1);
   title(label);
   filename=sprintf("accel-y%d.png",marker-1);
-  filename2=sprintf("peak%d.png",marker-1);
-  filename3=sprintf("freq%d.png",marker-1);
   xs2png(0,filename);
-  csvWrite(fft_max_freq, filename2, ascii(9));
-  csvWrite(fft_peaks_freq, filename3, ascii(9));
+  
+  filename=sprintf("accel-freq%d.csv",marker-1);
+  csvWrite(fft_peaks_freq, filename, ascii(9));
  
 end
+
+filename=sprintf("accel-peak.csv");
+csvWrite(fft_max_freq', filename, ascii(9));
 
 exit
