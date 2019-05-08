@@ -1,11 +1,11 @@
 // run it this way:
-// $ scilab-adv-cli -f grayplot-cam.sce -args accelerometerdisplacementfile
+// $ scilab-adv-cli -f grayplot-accel.sce -args accelerometerdisplacementfile
 
 clear;
 exec('peak_detect.sci');
 funcprot(0); // peaks() is redifined
 args= sciargs();
-displacement=csvRead("tapa", ascii(9), 'double');
+displacement=csvRead(args(5), ascii(9), 'double');
 
 sample_window= 1200; // FFT sample_window window
 sample_time= 20; // s
