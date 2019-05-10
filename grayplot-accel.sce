@@ -9,6 +9,9 @@ displacement=csvRead(args(5), ascii(9), 'double');
 
 sample_window= 1200; // FFT sample_window window
 sample_time= 20; // s
+time_max= 10// sec
+time_part= time_max / sample_time; 
+
 freq_sampling= 480; // Hz
 step_size=60;
 step_max= (size(displacement,1)-sample_window)/step_size; 
@@ -44,7 +47,7 @@ for marker= 1:9 do
 
 // vertical axis
   xset("colormap",jetcolormap(64));
-  Sgrayplot(time,freqS,grayft);
+  Sgrayplot(time(1:step_max*time_part),freqS,grayft(1:step_max*time_part,:));
   xlabel("time (s)");
   ylabel("freq (Hz)");
   label=sprintf("marker%d vertical",marker-1);
