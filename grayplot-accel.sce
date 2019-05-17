@@ -7,16 +7,16 @@ funcprot(0); // peaks() is redifined
 args= sciargs();
 displacement=csvRead(args(5), ascii(9), 'double');
 
-sample_window= 1200; // FFT sample_window window
+sample_window= 240; // FFT sample_window window
 sample_time= 20; // s
-time_max= 10// sec
+time_max= 20// sec
 time_part= time_max / sample_time; 
 
 freq_sampling= 480; // Hz
 step_size=60;
 step_max= (size(displacement,1)-sample_window)/step_size; 
 freq_max=30; // Hz
-peaks_order= 10; // number of frequency peaks to extract
+peaks_order= 8; // number of frequency peaks to extract
 
 freq_elem= freq_max / freq_sampling * sample_window; 
 freqF=0:freq_sampling/sample_window:freq_sampling-0.0001;
@@ -34,7 +34,7 @@ for marker= 1:9 do
     [ fft_max_value(step+1) fft_max_index(step+1) ] = max(dfft);    
 	if freqF(fft_max_index(step+1)) < freq_max then
 		fft_max_freq(marker,step+1)= freqF(fft_max_index(step+1));
-        else fft_max_freq(step+1)= 0;
+        else fft_max_freq(marker,step+1)= 0;
 	end
 	
 	// extract peaks
@@ -48,6 +48,7 @@ for marker= 1:9 do
 // vertical axis
   xset("colormap",jetcolormap(64));
   Sgrayplot(time(1:step_max*time_part),freqS,grayft(1:step_max*time_part,:));
+  //Sgrayplot(time,freqS,grayft);
   xlabel("time (s)");
   ylabel("freq (Hz)");
   label=sprintf("marker%d vertical",marker-1);

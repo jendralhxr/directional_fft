@@ -7,11 +7,11 @@ funcprot(0); // peaks() is redifined
 args= sciargs();
 temp=csvRead(args(5), ascii(9), 'double');
 
-sample_window= 600; // FFT sample_window window
+sample_window= 120; // FFT sample_window window
 sample_time= 10; // s
 freq_sampling= 240; // Hz
 freq_max=30; // Hz
-peaks_order= 10; // number of frequency peaks to extract
+peaks_order= 8; // number of frequency peaks to extract
 
 freq_elem= freq_max / freq_sampling * sample_window; 
 freqF=0:freq_sampling/sample_window:freq_sampling-0.0001;
