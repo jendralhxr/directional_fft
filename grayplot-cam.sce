@@ -51,9 +51,11 @@ for marker= 1:9 do
 	// extract frequency peaks
 	temp_peaks_x= peak_detect(dfft_x', max(dfft_x)/threshold_ratio);
 	temp_peaks_y= peak_detect(dfft_y', max(dfft_y)/threshold_ratio);
-	for order=1:peaks_order do
+	for order=1:size(temp_peaks_x,2) do
         fft_peaks_freq_x(step+1,order)= freqF(temp_peaks_x(order));
-	    fft_peaks_freq_y(step+1,order)= freqF(temp_peaks_y(order));
+	end		// order
+	for order=1:size(temp_peaks_y,2) do
+        fft_peaks_freq_y(step+1,order)= freqF(temp_peaks_y(order));
 	end		// order
 	
     grayft_x(step+1,1:freq_elem)=dfft_x(1:freq_elem)';

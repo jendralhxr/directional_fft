@@ -40,7 +40,7 @@ for marker= 1:9 do
 	
 	// extract peaks
 	temp_peaks= peak_detect(dfft', max(dfft)/threshold_ratio);
-	for order=1:peaks_order do
+	for order=1:size(temp_peaks,2) do
         fft_peaks_freq(step+1,order)= freqF(temp_peaks(order));
 	end		
     grayft(step+1,1:freq_elem)=dfft(1:freq_elem)';
