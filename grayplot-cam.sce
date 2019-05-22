@@ -6,6 +6,7 @@ exec('peak_detect.sci');
 funcprot(0); // peaks() is redifined
 args= sciargs();
 temp=csvRead(args(5), ascii(9), 'double');
+threshold_ratio= 32;
 
 sample_window= 120; // FFT sample_window window
 sample_time= 10; // s
@@ -48,8 +49,8 @@ for marker= 1:9 do
         else fft_max_freq_y(marker,step+1)= 0;
         end
 	// extract frequency peaks
-	temp_peaks_x= peak_detect(dfft_x');
-	temp_peaks_y= peak_detect(dfft_y');
+	temp_peaks_x= peak_detect(dfft_x', max(dfft_x)/threshold_ratio);
+	temp_peaks_y= peak_detect(dfft_y', max(dfft_y)/threshold_ratio);
 	for order=1:peaks_order do
         fft_peaks_freq_x(step+1,order)= freqF(temp_peaks_x(order));
 	    fft_peaks_freq_y(step+1,order)= freqF(temp_peaks_y(order));

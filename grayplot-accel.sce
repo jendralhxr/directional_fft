@@ -7,6 +7,7 @@ funcprot(0); // peaks() is redifined
 args= sciargs();
 displacement=csvRead(args(5), ascii(9), 'double');
 
+threshold_ratio= 32;
 sample_window= 240; // FFT sample_window window
 sample_time= 20; // s
 time_max= 20// sec
@@ -38,7 +39,7 @@ for marker= 1:9 do
 	end
 	
 	// extract peaks
-	temp_peaks= peak_detect(dfft');
+	temp_peaks= peak_detect(dfft', max(dfft)/threshold_ratio);
 	for order=1:peaks_order do
         fft_peaks_freq(step+1,order)= freqF(temp_peaks(order));
 	end		
