@@ -3,7 +3,7 @@
 
 clear;
 exec('peak_detect.sci');
-funcprot(0); // peaks() is redifined
+funcprot(0); // peaks() is redefined
 args= sciargs();
 displacement=csvRead(args(5), ascii(9), 'double');
 
@@ -17,7 +17,6 @@ freq_sampling= 480; // Hz
 step_size=60;
 step_max= (size(displacement,1)-sample_window)/step_size; 
 freq_max=30; // Hz
-peaks_order= 8; // number of frequency peaks to extract
 
 freq_elem= freq_max / freq_sampling * sample_window; 
 freqF=0:freq_sampling/sample_window:freq_sampling-0.0001;
