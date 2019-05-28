@@ -21,8 +21,6 @@ for marker= 1:9 do
 	sdfft=smooth( [freqZ;dfft'], (freqZ(2)-freqZ(1))*smoothing_ratio  ); 
 	temp_peaks= peak_detect(sdfft(2,:), max(dfft)/threshold_ratio);
 	
-	//temp_peaks= peak_detect(dfft', max(dfft)/threshold_ratio);
-	
 	for order=1:size(temp_peaks,2)/2 do
 		mid= (temp_peaks(order)-1)*smoothing_ratio;
 		
