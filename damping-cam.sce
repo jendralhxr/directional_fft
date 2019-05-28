@@ -8,9 +8,13 @@ args= sciargs();
 displacement=csvRead(args(5), ascii(9), 'double');
 
 threshold_ratio= 8;
+smoothing_ratio= 20;
 freq_sampling= 240; // Hz
 
 freqZ=0:freq_sampling/size(displacement,1):freq_sampling-0.0001;
+
+// smoothing to find peaks
+
 
 for marker= 1:9 do
 	displacement_x(:,marker)=displacement(:,2*marker-1);
